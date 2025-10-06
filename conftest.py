@@ -36,3 +36,18 @@ def sample_booking_data():
         },
         "additionalneeds": "WiFi"
     }
+
+
+@pytest.fixture
+def created_booking(sample_booking_data):
+    """Create a booking and return the booking ID and data."""
+    headers = {"Content-Type": "application/json"}
+    response = requests.post(f"{BASE_URL}/booking", json=sample_booking_data, headers=headers)
+
+    assert response.status_code == 200, f"Failed to create booking: {response.status_code}"
+    data = response.json()
+
+    return {
+        "booking_id": data["bookingid"],
+        "booking_data": data["booking"]
+    }
