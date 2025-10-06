@@ -51,13 +51,16 @@ def auth_token():
     assert response.status_code == 200, f"Failed to get auth token: {response.status_code}"
     token = response.json()["token"]
 
+    print("token get")
+
     yield token
 
-    # Teardown: No cleanup needed for token
+    print("Disable token")
 
 
 @pytest.fixture
-def created_booking(sample_booking_data):
+def created_booking(sample_booking_data):   # created_booking["booking_id"]
+    print("create booking")
     """Create a booking and return the booking ID and data."""
     headers = {"Content-Type": "application/json"}
     response = requests.post(f"{BASE_URL}/booking", json=sample_booking_data, headers=headers)

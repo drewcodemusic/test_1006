@@ -4,8 +4,9 @@ from src.config import BASE_URL
 
 
 class TestPutBooking:
-    def test_put_booking_with_token(self, created_booking, auth_token):
+    def test_put_booking_with_token(self, auth_token, created_booking):
         """Test PUT booking using token cookie authentication."""
+        print("start test")
         booking_id = created_booking["booking_id"]
 
         # Get the booking to verify initial data
@@ -39,6 +40,7 @@ class TestPutBooking:
             json=put_data,
             headers=headers
         )
+        print("run put API")
 
         assert put_response.status_code == 200, f"Expected 200, got {put_response.status_code}"
         updated_data = put_response.json()
@@ -51,3 +53,5 @@ class TestPutBooking:
         assert updated_data["bookingdates"]["checkin"] == "2018-01-01", "Checkin date was not updated"
         assert updated_data["bookingdates"]["checkout"] == "2019-01-01", "Checkout date was not updated"
         assert updated_data["additionalneeds"] == "Breakfast", "Additional needs was not updated"
+
+# intermittent
