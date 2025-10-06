@@ -39,6 +39,24 @@ def sample_booking_data():
 
 
 @pytest.fixture
+def auth_token():
+    """Get authentication token from the API."""
+    auth_data = {
+        "username": "admin",
+        "password": "password123"
+    }
+    headers = {"Content-Type": "application/json"}
+    response = requests.post(f"{BASE_URL}/auth", json=auth_data, headers=headers)
+
+    assert response.status_code == 200, f"Failed to get auth token: {response.status_code}"
+    token = response.json()["token"]
+
+    yield token
+
+    # Teardown: No cleanup needed for token
+
+
+@pytest.fixture
 def created_booking(sample_booking_data):
     """Create a booking and return the booking ID and data."""
     headers = {"Content-Type": "application/json"}
