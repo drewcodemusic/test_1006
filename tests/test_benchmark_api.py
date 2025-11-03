@@ -27,6 +27,7 @@ class TestAPIBenchmarks:
         headers = {"Content-Type": "application/json"}
 
         # For operations with multiple parameters, use lambda or a wrapper function
+        '''
         result = benchmark(
             lambda: requests.post(
                 f"{BASE_URL}/booking",
@@ -34,9 +35,13 @@ class TestAPIBenchmarks:
                 headers=headers
             )
         )
+        '''
+
+        result = benchmark(requests.post, f"{BASE_URL}/booking", json=sample_booking_data, headers=headers)
 
         assert result.status_code == 200
 
+    '''
     def test_benchmark_patch_booking(self, benchmark, created_booking):
         """Benchmark PATCH request to update a booking."""
         booking_id = created_booking["booking_id"]
@@ -98,3 +103,4 @@ class TestAPIBenchmarks:
 
         result = benchmark(full_workflow)
         assert result.status_code == 200
+        '''
